@@ -10,4 +10,10 @@ class Zone:
         return self.zones
 
     def addZone(self,z):
-        self.zones.add(z)
+        self.zones.append(z)
+
+    def print(self):
+        print(self.name)
+        for z in zones:
+            print(z)
+

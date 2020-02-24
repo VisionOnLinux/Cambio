@@ -7,3 +7,6 @@ class Car:
 
 	def getName(self):
 		return self.name
+
+        def print(self):
+                print(self.name)
