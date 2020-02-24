@@ -11,15 +11,41 @@ class InputData:
 		self.cars = []
 		self.res  = []
 		self.zones= []
+		self.days = 0
 
 	def loadCSV(self, fn):
 		print(fn)
 		with open(fn) as csv_file:
 			csv_reader = csv.reader(csv_file, delimiter=';')
 
-			numReq = int(next(csv_reader)[0].split(": ")[1])
+			while True:
+				line = next(csv_reader)[0]
+				num  = int(line.split(": ")[1])
+				name = line.split(": ")[0]
 
-			for idx in range(0, numReq):
-				line = next(csv_reader)
-				print(line)
-				
+				if name != "+Days":
+					for idx in range(0, num):
+						line = next(csv_reader)
+						if name == "+Requests":
+							req = Res(line[0], line[1], line[2], line[3], line[4], line[6], line[7])
+							for car in line[5].split(","):
+								req.addCar(car)
+
+							res.append(req)
+						elif name == "+Zones":
+							zone = Zone(line[0])
+							for z in line[1].split(","):
+								zone.addZone(z)
+
+							zones.append(zone)
+						elif name == "+Vehicles":
+							car = Car(line[0])
+							cars.append(car)
+				else:
+					self.days = num
+					break
+
+		print(res.len)
+		print(cars.len)
+		print(zones.len)
+		print(days)

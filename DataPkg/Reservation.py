@@ -33,4 +33,4 @@ class Reservation:
 		return self.p2
 
 	def addCar(self, c):
-		self.cars.add(c)
+		self.cars.append(c)
