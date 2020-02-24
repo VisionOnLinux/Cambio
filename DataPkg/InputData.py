@@ -31,21 +31,28 @@ class InputData:
 							for car in line[5].split(","):
 								req.addCar(car)
 
-							res.append(req)
+							self.res.append(req)
 						elif name == "+Zones":
 							zone = Zone(line[0])
 							for z in line[1].split(","):
 								zone.addZone(z)
 
-							zones.append(zone)
+							self.zones.append(zone)
 						elif name == "+Vehicles":
 							car = Car(line[0])
-							cars.append(car)
+							self.cars.append(car)
 				else:
 					self.days = num
 					break
 
-		print(res.len)
-		print(cars.len)
-		print(zones.len)
-		print(days)
+	def getCars(self):
+		return self.cars
+
+	def getReservations(self):
+		return self.res
+
+	def getZones(self):
+		return self.zones
+
+	def getDays(self):
+		return self.days

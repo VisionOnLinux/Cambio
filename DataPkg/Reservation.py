@@ -35,13 +35,13 @@ class Reservation:
 	def addCar(self, c):
 		self.cars.append(c)
 
-        def print(self):
-            print(self.name)
-            print(self.z)
-            print(self.d)
-            print(self.start)
-            print(self.dura)
-            print(self.p1)
-            print(self.p2)
-            for c in cars:
-                print(c)
+	def print(self):
+		print(self.name)
+		print(self.zone)
+		print(self.day)
+		print(self.start)
+		print(self.dura)
+		print(self.p1)
+		print(self.p2)
+		for c in self.cars:
+			print(c)
