@@ -6,8 +6,8 @@ class Zone:
     def getName(self):
         return self.name
 
-    def getZones(self)
+    def getZones(self):
         return self.zones
 
-    def addZone(self,z)
+    def addZone(self,z):
         self.zones.add(z)

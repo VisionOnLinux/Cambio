@@ -1,6 +1,6 @@
 
 
-class Reservations:
+class Reservation:
 	def __init__(self, name, z, day, start, dura, p1, p2):
 		self.name = name
 		self.zone = z
