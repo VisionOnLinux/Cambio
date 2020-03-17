@@ -89,15 +89,15 @@ class OutputData:
 					continue
 			if not match:
 				self.unassigned.append(r)
+		for c,z in self.carZones.items():
+			if z is None:
+				self.carZones[c]=inp.getZones()[0]
 
 	def print(self):
 		print(self.getCost())
 		print('+Vehicle assignments')
 		for car,zone in self.carZones.items():
-			if zone is None:
-				print(car.getName()+';')
-			else:
-				print(car.getName()+';'+zone.getName())
+			print(car.getName()+';'+zone.getName())
 		print('+Assigned requests')
 		for req,car in self.resCars.items():
 			print(req.getName()+';'+car.getName())
