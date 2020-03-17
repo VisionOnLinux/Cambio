@@ -49,6 +49,9 @@ class Reservation:
 	def getCars(self):
 		return self.cars
 
+	def getCarsObj(self):
+		return self.carsObj
+
 	def print(self):
 		print(self.name)
 		print(self.zoneObj.getName())

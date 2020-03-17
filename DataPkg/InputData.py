@@ -24,7 +24,6 @@ class InputData:
 				return c
 
 	def loadCSV(self, fn):
-		print(fn)
 		with open(fn) as csv_file:
 			csv_reader = csv.reader(csv_file, delimiter=';')
 
@@ -37,7 +36,7 @@ class InputData:
 					for idx in range(0, num):
 						line = next(csv_reader)
 						if name == "+Requests":
-							req = Res(line[0], line[1], line[2], line[3], line[4], line[6], line[7])
+							req = Res(line[0], line[1], line[2], line[3], line[4], int(line[6]), int(line[7]))
 							for car in line[5].split(","):
 								req.addCar(car)
 
