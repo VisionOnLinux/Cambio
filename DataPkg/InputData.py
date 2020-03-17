@@ -13,6 +13,16 @@ class InputData:
 		self.zones= []
 		self.days = 0
 
+	def getZoneByName(self, name):
+		for z in self.zones:
+			if z.getName() == name:
+				return z
+
+	def getCarByName(self, name):
+		for c in self.cars:
+			if c.getName() == name:
+				return c
+
 	def loadCSV(self, fn):
 		print(fn)
 		with open(fn) as csv_file:
@@ -44,6 +54,12 @@ class InputData:
 				else:
 					self.days = num
 					break
+
+		for r in self.res:
+			r.setZone(self.getZoneByName(r.getZone()))
+			for c in r.getCars():
+				r.addCarObj(self.getCarByName(c))
+
 
 	def getCars(self):
 		return self.cars
