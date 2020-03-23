@@ -9,7 +9,7 @@ class OutputData:
 		self.cost 	   = 0
 		self.carZones  = dict()	# {carID: zone, carID: zone}
 		self.resCars   = dict() # {res: car, res: car}
-		self.unassigned= [] # [res, res]
+		self.unassigned= []     # [res, res]
 		self.usedCars  = dict() # {carID: [(t1, d1), (t2, d2)], carID: [(t1, d1), (t2, d2)]}
 
 	def checkTime(self, i, s, d):
@@ -68,20 +68,20 @@ class OutputData:
 
 	def initialise(self, inp):
 		for car in inp.getCars():
-			self.usedCars[car]=[]
-			self.carZones[car]=None
+			self.usedCars[car] = []
+			self.carZones[car] = None
 		for r in inp.getReservations():
-			match=0
+			match = 0
 			for c in r.getCarsObj():
-				if self.checkTime(c, r.getStart(), r.getDuration()):   			# Car free?
+				if self.checkTime(c, r.getStart(), r.getDuration()):   	  # Car free?
 					if self.carZones[c] is None:
 						self.carZones[c] = r.getZoneObj()
-						self.resCars[r]=c
-						match=1
+						self.resCars[r] = c
+						match = 1
 						break
-					elif self.checkZone(r.getZone(), c, inp.getZones()):   # Car zone ok?
-						self.resCars[r]=c
-						match=1
+					elif self.checkZone(r.getZone(), c, inp.getZones()):  # Car zone ok?
+						self.resCars[r] = c
+						match = 1
 						break
 					else:
 						continue
@@ -91,7 +91,7 @@ class OutputData:
 				self.unassigned.append(r)
 		for c,z in self.carZones.items():
 			if z is None:
-				self.carZones[c]=inp.getZones()[0]
+				self.carZones[c] = inp.getZones()[0]
 
 	def print(self):
 		print(self.getCost())
