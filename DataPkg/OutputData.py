@@ -2,6 +2,7 @@
 
 from DataPkg.Car import Car
 from DataPkg.Zone import Zone
+import random
 
 
 class OutputData:
@@ -11,6 +12,24 @@ class OutputData:
 		self.resCars   = dict() # {res: car, res: car}
 		self.unassigned= []     # [res, res]
 		self.usedCars  = dict() # {carID: [(t1, d1), (t2, d2)], carID: [(t1, d1), (t2, d2)]}
+		random.seed()
+
+	def localSearch(self):
+		searchOps=[changeCar,switchCars,changeReservation,switchReservation]
+		functionnr=random.randint(0,3)
+		searchOps[functionnr]()
+
+	def changeCar(self):
+		print('changecar')
+
+	def switchCars(self):
+		print('switchcars')
+
+	def changeReservation(self):
+		print('changereservation')
+	def switchReservation(self):
+		print('switchreservation')
+
 
 	def checkTime(self, i, s, d):
 		x = self.usedCars[i]

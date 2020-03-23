@@ -17,6 +17,10 @@ ind.loadCSV(sys.argv[1])
 outd =  OutD()
 outd.initialise(ind)
 outd.print()
+outd.localSearch()
+outd.localSearch()
+outd.localSearch()
+outd.localSearch()
 #
 # for r in outd.getUnassigned():
 # 	r.print()
