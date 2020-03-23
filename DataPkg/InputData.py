@@ -65,7 +65,7 @@ class InputData:
 				r.addCarObj(self.getCarByName(c))
 
 		for z in self.zones:
-			for z2 in z.getZones()
+			for z2 in z.getZones():
 				z.addZoneObj(self.getZoneByName(z2))
 
 
