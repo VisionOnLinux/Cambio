@@ -15,17 +15,28 @@ class OutputData:
 		random.seed()
 
 	def localSearch(self):
-		searchOps=[self.changeCar,self.switchCars,self.changeReservation,self.switchReservation]
-		functionnr=random.randint(0,3)
-		searchOps[functionnr]()
+		searchOps=[self.changeCar]#,self.switchCars,self.changeReservation,self.switchReservation]
+		function=random.choice(searchOps)
+		function()
 
 	def changeCar(self):
 		car,zone=random.choice(list(self.carZones.items()))
 		new_zone=random.choice(zone.getZonesObj())
-		zone.print()
-		car.print()
-		new_zone.print()
+		delete = []
 		self.carZones[car]=new_zone
+		for r,c in self.resCars.items():
+			if c is car:
+				if not self.checkZone(r.getZoneObj(),c):
+					delete.append(r)
+					for i in range(len(self.usedCars[c])):
+						if int(self.usedCars[c][i][0]) == int(r.getStart()):
+							self.usedCars[c].pop(i)
+							break
+		for res in delete:
+			del self.resCars[res]
+			self.unassigned.append(res)
+		self.reassign()
+
 
 	def switchCars(self):
 		print('switchcars')
@@ -35,24 +46,52 @@ class OutputData:
 	def switchReservation(self):
 		print('switchreservation')
 
+	def reassign(self):
+		delete = []
+		for idx,r in enumerate(self.unassigned):
+			#r.print()
+			match = 0
+			timeslot = 0
+			for c in r.getCarsObj():
+				timeslot = self.checkTime(c, r.getStart(), r.getDuration())
+				if timeslot > 0:   	  # Car free?
+					if self.checkZone(r.getZoneObj(), c):  # Car zone ok?
+						self.resCars[r] = c
+						match = 1
+						break
+					else:
+						continue
+				else:
+					continue
+			if match:
+				delete.append(idx)
+				i = self.resCars[r]
+				s = r.getStart()
+				d = r.getDuration()
+				if timeslot == 1 :
+					self.usedCars[i].append((s,d))
+				elif timeslot == 2 :
+					self.usedCars[i].insert(0, (s, d))
+				elif timeslot == 3 :
+					self.usedCars[i].append((s, d))
+				else:
+					self.usedCars[i].insert(timeslot-3, (s, d))
+
+		for c,i in enumerate(delete):
+			self.unassigned.pop(i-c)
 
 	def checkTime(self, i, s, d):
 		x = self.usedCars[i]
-		print(i.getName(),x,s,d)
 		if not x:
-			print('Not x')
 			#self.usedCars[i].append((s,d))
 			return 1
 		elif int(x[0][0]) >= (int(s) +int(d)):
-			print('elif 1')
 			#self.usedCars[i].insert(0, (s, d))
 			return 2
 		elif (int(x[len(x) - 1][0]) + int(x[len(x) - 1][1])) <= int(s):
-			print('elif 2',x[0][0])
 			#self.usedCars[i].append((s, d))
 			return 3
 		else:
-			print('else')
 			for (idx, t) in enumerate(x):
 				sx,dx=t
 				sx = int(sx)
@@ -67,22 +106,20 @@ class OutputData:
 					return 4+idx
 				else:
 					return 0
-		print(self.usedCars[i])
 
-	def checkZone(self, zone, i, zones):
+	def checkZone(self, zone, i):
 		z = self.carZones[i]
 		#print(z,zone)
 		if z is zone:
 			return 1
-		for z1 in zones:
-			if z == z1.getName():
-				for z2 in z1.getZones():
-					if zone == z2:
-						return 1
 
+		for z1 in z.getZones():
+			if zone is z1:
+				return 1
 		return 0
 
 	def getCost(self):
+		self.cost=0
 		for r in self.unassigned:
 			self.cost += r.p1
 		for r,c in self.resCars.items():
@@ -115,7 +152,7 @@ class OutputData:
 						self.resCars[r] = c
 						match = 1
 						break
-					elif self.checkZone(r.getZoneObj(), c, inp.getZones()):  # Car zone ok?
+					elif self.checkZone(r.getZoneObj(), c):  # Car zone ok?
 						self.resCars[r] = c
 						match = 1
 						break

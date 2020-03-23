@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
+import copy
 from DataPkg.InputData import InputData as InD
 from DataPkg.OutputData import OutputData as OutD
 
@@ -17,10 +18,20 @@ ind.loadCSV(sys.argv[1])
 outd =  OutD()
 outd.initialise(ind)
 outd.print()
-outd.localSearch()
-outd.localSearch()
-outd.localSearch()
-outd.localSearch()
+outd2=copy.deepcopy(outd)
+for _ in range(10000):
+    outd2.localSearch()
+    if outd.getCost()>outd2.getCost():
+        outd=copy.deepcopy(outd2)
+        print(outd2.getCost())
+#outd2.print()
+#outd2.localSearch()
+#outd2.print()
+#outd2.localSearch()
+outd.print()
+#outd2.localSearch()
+#outd2.print()
+
 #
 # for r in outd.getUnassigned():
 # 	r.print()
