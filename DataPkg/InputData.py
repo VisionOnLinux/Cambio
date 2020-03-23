@@ -23,6 +23,11 @@ class InputData:
 			if c.getName() == name:
 				return c
 
+	def getZoneByName(self, name):
+		for z in self.zones:
+			if z.getName() == name:
+				return z
+
 	def loadCSV(self, fn):
 		with open(fn) as csv_file:
 			csv_reader = csv.reader(csv_file, delimiter=';')
@@ -58,6 +63,11 @@ class InputData:
 			r.setZone(self.getZoneByName(r.getZone()))
 			for c in r.getCars():
 				r.addCarObj(self.getCarByName(c))
+
+		for z in self.zones:
+			for z2 in z.getZones()
+				z.addZoneObj(self.getZoneByName(z2))
+
 
 
 	def getCars(self):
