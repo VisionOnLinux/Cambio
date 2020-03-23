@@ -15,7 +15,7 @@ class OutputData:
 		random.seed()
 
 	def localSearch(self):
-		searchOps=[changeCar,switchCars,changeReservation,switchReservation]
+		searchOps=[self.changeCar,self.switchCars,self.changeReservation,self.switchReservation]
 		functionnr=random.randint(0,3)
 		searchOps[functionnr]()
 
