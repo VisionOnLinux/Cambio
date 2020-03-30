@@ -79,6 +79,7 @@ class OutputData:
 			del self.resCars[res]
 			self.unassigned.append(res)
 		delete = []
+		deletepop = []
 		timeslot = self.checkTime(chosenCar,res.getStart(),res.getDuration())
 		#print('Timeslot',timeslot)
 		if timeslot > 0:
@@ -99,13 +100,15 @@ class OutputData:
 				s1 = int(self.usedCars[chosenCar][i][0])
 				d1 = int(self.usedCars[chosenCar][i][1])
 				if (((s1 < s2) and (s1 + d1 >= s2)) or ((s1 > s2) and (s1 <= s2 + d2))):
-					self.usedCars[chosenCar].pop(i)
+					deletepop.append(i)
 					for r,c in self.resCars.items():
 						if c is chosenCar and int(r.getStart()) == s1 :
 							delete.append(r)
 			for res in delete:
 				del self.resCars[res]
 				self.unassigned.append(res)
+			for c,i in enumerate(deletepop):
+				self.usedCars[chosenCar].pop(i-c)
 
 			timeslot = self.checkTime(chosenCar,res.getStart(),res.getDuration())
 			if timeslot > 0:
