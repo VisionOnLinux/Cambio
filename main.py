@@ -20,10 +20,16 @@ outd.initialise(ind)
 outd.print()
 outd2=copy.deepcopy(outd)
 for _ in range(10000):
+    #outd2=copy.deepcopy(outd)
+    #outd2.print()
     outd2.localSearch()
+    #outd2.print()
+    #print('Cost',outd2.getCost())
     if outd.getCost()>outd2.getCost():
         outd=copy.deepcopy(outd2)
-        print(outd2.getCost())
+        print('Best',outd2.getCost())
+    else:
+        outd2=copy.deepcopy(outd)
 #outd2.print()
 #outd2.localSearch()
 #outd2.print()

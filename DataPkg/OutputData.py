@@ -15,11 +15,12 @@ class OutputData:
 		random.seed()
 
 	def localSearch(self):
-		searchOps=[self.changeCar]#,self.switchCars,self.changeReservation,self.switchReservation]
+		searchOps=[self.changeCar,self.changeReservation]#,self.switchCars,self.changeReservation,self.switchReservation]
 		function=random.choice(searchOps)
 		function()
 
 	def changeCar(self):
+		#print('Change car ',end = '')
 		car,zone=random.choice(list(self.carZones.items()))
 		new_zone=random.choice(zone.getZonesObj())
 		delete = []
@@ -37,12 +38,94 @@ class OutputData:
 			self.unassigned.append(res)
 		self.reassign()
 
+	def changeReservation(self):
+		#print('Change res ',end = '')
+		res,car = None,None
+		chosenCar = None
+		delete = []
+		while True:
+			#print(self.resCars)
+			res,car=random.choice(list(self.resCars.items()))
+			carCount = res.getCarsObj()
+			#print(len(carCount))
+			if len(carCount) > 1:
+
+				while True:
+					chosenCar = random.choice(carCount)
+					if chosenCar is not car:
+						#print(chosenCar.getName())
+						self.resCars[res] = chosenCar
+						break
+				break
+		if not self.checkZone(res.getZoneObj(),chosenCar):
+			matchingZone = 0
+			for z in res.getZoneObj().getZonesObj():
+				if (self.checkZone(z,chosenCar)):
+					self.carZones[chosenCar] = z
+					matchingZone = 1
+					break
+			if not matchingZone:
+				self.carZones[chosenCar] = res.getZoneObj()
+
+		for r,c in self.resCars.items():
+			if c is chosenCar:
+				if not self.checkZone(r.getZoneObj(),c):
+					delete.append(r)
+					for i in range(len(self.usedCars[c])):
+						if int(self.usedCars[c][i][0]) == int(r.getStart()):
+							self.usedCars[c].pop(i)
+							break
+		for res in delete:
+			del self.resCars[res]
+			self.unassigned.append(res)
+		delete = []
+		timeslot = self.checkTime(chosenCar,res.getStart(),res.getDuration())
+		#print('Timeslot',timeslot)
+		if timeslot > 0:
+			s = res.getStart()
+			d = res.getDuration()
+			if timeslot == 1 :
+				self.usedCars[chosenCar].append((s,d))
+			elif timeslot == 2 :
+				self.usedCars[chosenCar].insert(0, (s, d))
+			elif timeslot == 3 :
+				self.usedCars[chosenCar].append((s, d))
+			else:
+				self.usedCars[chosenCar].insert(timeslot-3, (s, d))
+		else:
+			s2 = int(res.getStart())
+			d2 = int(res.getDuration())
+			for i in range(len(self.usedCars[chosenCar])):
+				s1 = int(self.usedCars[chosenCar][i][0])
+				d1 = int(self.usedCars[chosenCar][i][1])
+				if (((s1 < s2) and (s1 + d1 >= s2)) or ((s1 > s2) and (s1 <= s2 + d2))):
+					self.usedCars[chosenCar].pop(i)
+					for r,c in self.resCars.items():
+						if c is chosenCar and int(r.getStart()) == s1 :
+							delete.append(r)
+			for res in delete:
+				del self.resCars[res]
+				self.unassigned.append(res)
+
+			timeslot = self.checkTime(chosenCar,res.getStart(),res.getDuration())
+			if timeslot > 0:
+				s = res.getStart()
+				d = res.getDuration()
+				if timeslot == 1 :
+					self.usedCars[chosenCar].append((s,d))
+				elif timeslot == 2 :
+					self.usedCars[chosenCar].insert(0, (s, d))
+				elif timeslot == 3 :
+					self.usedCars[chosenCar].append((s, d))
+				else:
+					self.usedCars[chosenCar].insert(timeslot-3, (s, d))
+		self.reassign()
 
 	def switchCars(self):
 		print('switchcars')
 
-	def changeReservation(self):
-		print('changereservation')
+	#def changeReservation(self):
+	#	print('changereservation')
 	def switchReservation(self):
 		print('switchreservation')
 
