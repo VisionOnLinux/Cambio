@@ -19,7 +19,8 @@ outd =  OutD()
 outd.initialise(ind)
 outd.print()
 outd2=copy.deepcopy(outd)
-for _ in range(1):
+for _ in range(10000):
+    #print('.',end='',flush=True)
     #outd2=copy.deepcopy(outd)
     #outd2.print()
     outd2.localSearch()

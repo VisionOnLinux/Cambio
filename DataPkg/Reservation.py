@@ -29,7 +29,7 @@ class Reservation:
 		return self.day
 
 	def getStart(self):
-		return self.start
+		return self.start+(self.getDay()*(60*24))
 
 	def getDuration(self):
 		return self.dura

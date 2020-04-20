@@ -15,16 +15,32 @@ class OutputData:
 		random.seed()
 
 	def localSearch(self):
-		searchOps=[self.changeManyCars]#,self.changeCar,self.changeReservation]#,self.switchCars,self.changeReservation,self.switchReservation]
+		searchOps=[self.changeManyCars,self.changeCar,self.changeReservation]#,self.switchCars,self.changeReservation,self.switchReservation]
 		function=random.choice(searchOps)
 		function()
 
 	def changeManyCars(self):
-		amountCars = 9
-		amountShuffles = 6
+		amountCars = int(len(self.carZones)*0.7)
+		amountShuffles = int(amountCars//2)
 		zones = []
-		cars = random.sample(self.carZones,amountCars)
-		print(cars)
+		cars = random.sample(list(self.carZones),amountCars)
+		delete = []
+		for c in cars:
+			zones.append(self.carZones[c])
+			self.usedCars[c]=[]
+		for res,car in self.resCars.items():
+			if car in cars:
+				delete.append(res)
+				self.unassigned.append(res)
+		for d in delete:
+			del self.resCars[d]
+
+		for _ in range(amountShuffles):
+			random.shuffle(zones)
+		for idx in range(amountCars):
+			self.carZones[cars[idx]]=zones[idx]
+		self.reassign()
+
 
 	def changeCar(self):
 		#print('Change car ',end = '')
@@ -141,6 +157,7 @@ class OutputData:
 
 	def reassign(self):
 		delete = []
+		random.shuffle(self.unassigned)
 		for idx,r in enumerate(self.unassigned):
 			#r.print()
 			match = 0
