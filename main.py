@@ -19,7 +19,7 @@ outd =  OutD()
 outd.initialise(ind)
 #outd.print()
 outd2=copy.deepcopy(outd)
-for i in range(30000):
+for i in range(1000):
     #print('.',end='',flush=True)
     #outd2=copy.deepcopy(outd)
     #outd2.print()

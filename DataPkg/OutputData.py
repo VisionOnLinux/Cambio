@@ -5,6 +5,8 @@ from DataPkg.Zone import Zone
 import random
 import csv
 
+import inspect
+
 
 class OutputData:
 	def __init__(self):
@@ -102,13 +104,12 @@ class OutputData:
 						if int(self.usedCars[c][i][0]) == int(r.getStart()):
 							self.usedCars[c].pop(i)
 							break
-		for res in delete:
-			del self.resCars[res]
-			self.unassigned.append(res)
+		for resDel in delete:
+			del self.resCars[resDel]
+			self.unassigned.append(resDel)
 		delete = []
 		deletepop = []
 		timeslot = self.checkTime(chosenCar,res.getStart(),res.getDuration())
-		#print('Timeslot',timeslot)
 		if timeslot > 0:
 			s = res.getStart()
 			d = res.getDuration()
@@ -218,8 +219,7 @@ class OutputData:
 				if (int(s) >= (sx + dx) and (int(s) +int(d)) <= sy):
 					#self.usedCars[i].insert(idx + 1, (s, d))
 					return 4+idx
-				else:
-					return 0
+			return 0
 
 	def checkZone(self, zone, i):
 		z = self.carZones[i]
