@@ -15,9 +15,16 @@ class OutputData:
 		random.seed()
 
 	def localSearch(self):
-		searchOps=[self.changeCar,self.changeReservation]#,self.switchCars,self.changeReservation,self.switchReservation]
+		searchOps=[self.changeManyCars]#,self.changeCar,self.changeReservation]#,self.switchCars,self.changeReservation,self.switchReservation]
 		function=random.choice(searchOps)
 		function()
+
+	def changeManyCars(self):
+		amountCars = 9
+		amountShuffles = 6
+		zones = []
+		cars = random.sample(self.carZones,amountCars)
+		print(cars)
 
 	def changeCar(self):
 		#print('Change car ',end = '')
