@@ -17,9 +17,9 @@ ind.loadCSV(sys.argv[1])
 
 outd =  OutD()
 outd.initialise(ind)
-outd.print()
+#outd.print()
 outd2=copy.deepcopy(outd)
-for _ in range(10000):
+for i in range(5000):
     #print('.',end='',flush=True)
     #outd2=copy.deepcopy(outd)
     #outd2.print()
@@ -35,7 +35,8 @@ for _ in range(10000):
 #outd2.localSearch()
 #outd2.print()
 #outd2.localSearch()
-outd.print()
+
+outd.saveCSV(sys.argv[2])
 #outd2.localSearch()
 #outd2.print()
 
