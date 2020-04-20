@@ -16,6 +16,9 @@ class OutputData:
 		random.seed()
 
 	def localSearch(self):
+		l= list(self.resCars.items())
+		random.shuffle(l)
+		self.resCars = dict(l)
 		searchOps=[self.changeManyCars,self.changeCar,self.changeReservation]#,self.switchCars,self.changeReservation,self.switchReservation]
 		function=random.choice(searchOps)
 		function()
@@ -304,15 +307,15 @@ class OutputData:
 			print(unreq.getName())
 
 	def saveCSV(self,pathName):
-		with open(pathname,'w') as file:
+		with open(pathName,'w') as file:
 			writer = csv.writer(file)
-			writer.writerow(self.getCost())
-			writer.writerow('+Vehicle assignments')
+			writer.writerow([self.getCost()])
+			writer.writerow(['+Vehicle assignments'])
 			for car,zone in self.carZones.items():
-				writer.writerow(car.getName()+';'+zone.getName())
-			writer.writerow('+Assigned requests')
+				writer.writerow([car.getName()+';'+zone.getName()])
+			writer.writerow(['+Assigned requests'])
 			for req,car in self.resCars.items():
-				writer.writerow(req.getName()+';'+car.getName())
-			writer.writerow('+Unassigned requests')
+				writer.writerow([req.getName()+';'+car.getName()])
+			writer.writerow(['+Unassigned requests'])
 			for unreq in self.unassigned:
-				writer.writerow(unreq.getName())
+				writer.writerow([unreq.getName()])
