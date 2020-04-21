@@ -44,13 +44,11 @@ class InputData:
 							req = Res(line[0], line[1], line[2], line[3], line[4], int(line[6]), int(line[7]))
 							for car in line[5].split(","):
 								req.addCar(car)
-
 							self.res.append(req)
 						elif name == "+Zones":
 							zone = Zone(line[0])
 							for z in line[1].split(","):
 								zone.addZone(z)
-
 							self.zones.append(zone)
 						elif name == "+Vehicles":
 							car = Car(line[0])

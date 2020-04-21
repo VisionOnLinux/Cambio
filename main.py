@@ -2,44 +2,34 @@
 
 import sys
 import copy
+import random
+
+from multiprocessing import Pool
+
 from DataPkg.InputData import InputData as InD
 from DataPkg.OutputData import OutputData as OutD
 
+in_file   = sys.argv[1]
+out_file  = sys.argv[2]
+time_lim  = sys.argv[3]
+rand_seed = sys.argv[4]
+threads   = sys.argv[5]
+
+random.seed(rand_seed)
+
 ind = InD()
+ind.loadCSV(in_file)
 
-ind.loadCSV(sys.argv[1])
-
-#for r in ind.getReservations():
-#	r.print()
-
-#
-#ind.getZones()[1].print()
-
-outd =  OutD()
+outd = OutD()
 outd.initialise(ind)
-#outd.print()
 outd2=copy.deepcopy(outd)
+
 for i in range(10000):
-    #print('.',end='',flush=True)
-    #outd2=copy.deepcopy(outd)
-    #outd2.print()
     outd2.localSearch()
-    #outd2.print()
-    #print('Cost',outd2.getCost())
     if outd.getCost()>outd2.getCost():
         outd=copy.deepcopy(outd2)
         print('Best',outd2.getCost())
     else:
         outd2=copy.deepcopy(outd)
-#outd2.print()
-#outd2.localSearch()
-#outd2.print()
-#outd2.localSearch()
 
-outd.saveCSV(sys.argv[2])
-#outd2.localSearch()
-#outd2.print()
-
-#
-# for r in outd.getUnassigned():
-# 	r.print()
+outd.saveCSV(out_file)
