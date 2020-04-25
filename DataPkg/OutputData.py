@@ -23,7 +23,7 @@ class OutputData:
 		self.carZones  = dict()	# Define for every car a zone
 		self.resCars   = dict() # Connect all reservations to a specific car
 		self.unassigned= []     # All reservations that have no solution
-		self.usedCars  = dict() # Keep a timetable for all cars 
+		self.usedCars  = dict() # Keep a timetable for all cars
 
 	def localSearch(self):
 		"""
@@ -47,12 +47,12 @@ class OutputData:
 	def changeManyCars(self):
 		"""
 		Pick a number of cars from the list and shuffle their zones around
-		
+
 		This is quite a big jump for local search, but it prevents local minimum.
-		The function takes 70% of all cars from the list and shuffles their zones 
+		The function takes 30% of all cars from the list and shuffles their zones
 		half the number of cars were picked.
 		"""
-		amountCars     = int(len(self.carZones) * 0.7)	# Get the amount of 70% of cars
+		amountCars     = int(len(self.carZones) * 0.3)	# Get the amount of 70% of cars
 		amountShuffles = int(amountCars // 2)			# Divide it by 2 for the amount of shuffles
 		delete = []		# A list to keep track of all the reservations that need to be removed from the resCars list
 		zones  = []		# A list to keep all the zones from the cars in while shuffling
@@ -81,7 +81,7 @@ class OutputData:
 		"""
 		car,zone = random.choice(list(self.carZones.items()))	# Pick a random car from the list
 		new_zone = random.choice(zone.getZonesObj())			# Pick a random neighbour zone from the previous zone of the car
-		delete   = []	# A list to keep track of all the reservations that need to be removed from the resCars list 
+		delete   = []	# A list to keep track of all the reservations that need to be removed from the resCars list
 		self.carZones[car] = new_zone		# Apply the new zone to the selected car
 		for r,c in self.resCars.items():	# For all reservations that used this car, ...
 			if c is car:
@@ -236,7 +236,7 @@ class OutputData:
 
 		ts:  Timeslot (See return of checkTime())
 		res: The reservation
-		car: The car 
+		car: The car
 		"""
 		s = res.getStart()		# Get start time from the reservation
 		d = res.getDuration()	# Get the duration from the reservation
